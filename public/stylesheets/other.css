@@ -1,0 +1,18 @@
+/*loginUserの色付け*/
+.login {
+  background-color: #BDF38C;
+}
+
+/*以外*/
+.logout {
+  background-color: lightgray;
+}
+
+.private {
+  opacity: 0.6;
+  background-color: darksalmon;
+}
+
+.own .from {
+  color: cornflowerblue;
+}

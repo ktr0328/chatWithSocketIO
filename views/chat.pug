@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  link(rel='stylesheet', href='/stylesheets/chat.css')
+  link(rel='stylesheet', href='/stylesheets/message.css')
+  link(rel='stylesheet', href='/stylesheets/userList.css')
+  link(rel='stylesheet', href='/stylesheets/logs.css')
+  link(rel='stylesheet', href='/stylesheets/other.css')
+  h1= title
+  h3#username #{username}
+  div#container
+    div#leftPane
+      ul#userList
+    div#rightPane
+      ul#messageList
+  div#statusBar
+  div
+    input#inputMessage(type="text")
+    button#sendMessage(type="button") Send
+    select#messageTo(name="messageTo")
+  div
+    h2 Logs
+    div#logsBox
+      ul#logs
+  script(src="/socket.io/socket.io.js")
+  script(src="/dist/bundle.js")

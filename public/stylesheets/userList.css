@@ -1,0 +1,26 @@
+#userList li {
+  padding: 5px;
+  border: 1px solid #999999;
+  height: 50px;
+  border-radius: 3px;
+  cursor: pointer;
+  display: block;
+  /*margin-bottom: 5px;*/
+}
+
+#userList {
+  overflow: hidden;
+}
+
+.userImage {
+  display: block;
+  height: 50px;
+  width: 50px;
+  margin: 0;
+  padding: 0;
+  float: left;
+}
+
+.userName {
+  word-wrap: break-word;
+}
