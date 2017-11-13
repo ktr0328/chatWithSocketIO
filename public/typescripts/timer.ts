@@ -9,7 +9,7 @@ export class Timer {
   private inputUsers: string[];
 
   /**
-   * 連投禁止タイマー
+   * now Typingタイマー
    * TODO: もうちょっとなんとかしたい
    * @param {number} ms
    * @param {number} untilSec

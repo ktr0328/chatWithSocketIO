@@ -1,7 +1,7 @@
 .message {
   border-radius: 10px;
   padding: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 }
 
 .title {
@@ -24,4 +24,5 @@
 
 .mainMessage {
   padding: 5px 10px;
+  word-wrap: break-word;
 }

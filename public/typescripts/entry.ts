@@ -4,7 +4,7 @@ import {Timer} from './timer';
 import * as moment from 'moment'
 import {reloadPrivateMessagingList} from './privateMessage'
 
-const typingTimer = new Timer(1000, 3);
+const typingTimer = new Timer(1000, 4);
 const username = $('#username').text();
 const socket = io({
   transportOptions: {
@@ -32,7 +32,8 @@ $('#inputMessage').keydown(e => {
   }
 // now typing..
 }).keypress(e => {
-  socket.emit('typing to server', '');
+  const sendTo = $('#messageTo').val() !== "" || $('#messageTo').val() !== null ? $('#messageTo').val() : "All";
+  socket.emit('typing to server', sendTo);
 });
 
 // メッセージの受信
@@ -61,18 +62,14 @@ socket.on('userList', (users) => {
       if (users[user] !== "") li.addClass('login');
       else li.addClass('logout');
 
-      li.click((e) => {
-        $('#messageTo').val($(e.target).find('div').text());
-      });
+      li.click((e) => $('#messageTo').val($(e.target).find('div').text()));
       ul.append(li);
     }
   });
 });
 
 // now typing..
-socket.on('typing', (id: string) => {
-  typingTimer.start(id);
-});
+socket.on('typing', (id: string) => typingTimer.start(id));
 
 // 通知
 socket.on('notice', (notice: string) => {

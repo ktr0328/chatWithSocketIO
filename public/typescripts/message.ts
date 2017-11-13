@@ -24,11 +24,17 @@ export class Message {
       </div>
     `);
 
-    if (id === this.from) messageBox.addClass('login own');
-    else messageBox.addClass('logout');
+    const li = $("<li>");
+    if (id === this.from) {
+      messageBox.addClass('login own');
+      li.addClass('right');
+    } else {
+      messageBox.addClass('logout');
+      li.addClass('left');
+    }
 
     if (this.isPrivate) messageBox.addClass('private');
 
-    return $("<li>").append(messageBox);
+    return li.append(messageBox);
   }
 }

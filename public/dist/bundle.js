@@ -26267,7 +26267,7 @@ var message_1 = __webpack_require__(121);
 var timer_1 = __webpack_require__(122);
 var moment = __webpack_require__(0);
 var privateMessage_1 = __webpack_require__(125);
-var typingTimer = new timer_1.Timer(1000, 3);
+var typingTimer = new timer_1.Timer(1000, 4);
 var username = $('#username').text();
 var socket = io({
     transportOptions: {
@@ -26293,7 +26293,8 @@ $('#inputMessage').keydown(function (e) {
     }
     // now typing..
 }).keypress(function (e) {
-    socket.emit('typing to server', '');
+    var sendTo = $('#messageTo').val() !== "" || $('#messageTo').val() !== null ? $('#messageTo').val() : "All";
+    socket.emit('typing to server', sendTo);
 });
 // メッセージの受信
 socket.on('message to client', function (message) {
@@ -26314,17 +26315,13 @@ socket.on('userList', function (users) {
                 li.addClass('login');
             else
                 li.addClass('logout');
-            li.click(function (e) {
-                $('#messageTo').val($(e.target).find('div').text());
-            });
+            li.click(function (e) { return $('#messageTo').val($(e.target).find('div').text()); });
             ul.append(li);
         }
     });
 });
 // now typing..
-socket.on('typing', function (id) {
-    typingTimer.start(id);
-});
+socket.on('typing', function (id) { return typingTimer.start(id); });
 // 通知
 socket.on('notice', function (notice) {
     $('#logs')
@@ -26351,13 +26348,18 @@ var Message = /** @class */ (function () {
     }
     Message.prototype.generateLi = function (id) {
         var messageBox = $("\n      <div class=\"message\">\n        <div class=\"title\">\n          <div class=\"from\">" + this.from + "</div>\n          <div class=\"date\">" + this.date + "</div>\n        </div>\n        <div class=\"mainMessage\">" + this.message + "</div>\n      </div>\n    ");
-        if (id === this.from)
+        var li = $("<li>");
+        if (id === this.from) {
             messageBox.addClass('login own');
-        else
+            li.addClass('right');
+        }
+        else {
             messageBox.addClass('logout');
+            li.addClass('left');
+        }
         if (this.isPrivate)
             messageBox.addClass('private');
-        return $("<li>").append(messageBox);
+        return li.append(messageBox);
     };
     return Message;
 }());
@@ -26374,7 +26376,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var $ = __webpack_require__(1);
 var Timer = /** @class */ (function () {
     /**
-     * 連投禁止タイマー
+     * now Typingタイマー
      * TODO: もうちょっとなんとかしたい
      * @param {number} ms
      * @param {number} untilSec

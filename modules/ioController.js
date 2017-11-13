@@ -20,7 +20,7 @@ exports.init = function (io) {
 
     socket.on('message to server', (container) => {
       // 連投チェック TODO: socketプロパティではなくserverで保存するべき
-      const MULTIPLE_LIMIT = 3;
+      const MULTIPLE_LIMIT = 5;
       let isNotMultiple = (() => {
         if (socket.lastMessage === container.message) {
           socket.count++;
@@ -36,26 +36,27 @@ exports.init = function (io) {
       if (isNotMultiple) {
         const msg = {
           "message": container.message,
-          "date": moment().format("MM/DD HH:mm:ss"),
+          "date": moment().format("HH:mm:ss"),
           "from": username,
           "isPrivate": false
         };
 
-        const to = container.to !== null ? container.to.replace("to", "") : "All";
-        if (to === "All") {
+        const sendTo = container.to !== null ? container.to.replace("to", "") : "All";
+        if (sendTo === "All") {
           io.emit('message to client', msg);
         } else {
           msg.isPrivate = true;
           socket.emit('message to client', msg);
-          socket.to(userList[to]).emit('message to client', msg);
+          socket.to(userList[sendTo]).emit('message to client', msg);
         }
       } else {
         socket.emit('notice', "Multiple Post")
       }
     });
 
-    socket.on('typing to server', data => {
-      socket.broadcast.emit('typing', username);
+    socket.on('typing to server', sendTo => {
+      if (sendTo === "All") socket.broadcast.emit('typing', username);
+      else socket.to(userList[sendTo]).emit('typing', username);
     });
 
     socket.on('disconnect', () => {

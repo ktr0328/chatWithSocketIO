@@ -16,3 +16,11 @@
 .own .from {
   color: cornflowerblue;
 }
+
+.right {
+  margin-left: 60%;
+}
+
+.left {
+  margin-right: 60%;
+}
